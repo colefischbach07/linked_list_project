@@ -54,6 +54,25 @@ class SinglyLinkedList:
         return False
 
 
+    def insert_after(self, existing_value, new_value):
+        current = self._head
+
+        while current is not None:
+            if current.data == existing_value:
+                new_node = Node(new_value)
+                new_node.next = current.next
+                current.next = new_node
+
+                if current == self._tail:
+                    self._tail = new_node
+
+                self._count += 1
+                return
+
+            current = current.next
+
+        raise ValueError(f"{existing_value} not found in the list")
+
 
     def __iter__(self):
         current = self._head
@@ -88,3 +107,16 @@ if __name__ == "__main__":
     print("Length:", len(linked_list))
     print("Contains 20:", linked_list.contains(20))
     print("Contains 100:", linked_list.contains(100)) 
+
+    linked_list.insert_after(20, 25)
+    print("After inserting 25 after 20:")
+    print(linked_list)
+
+    linked_list.insert_after(30, 40)
+    print("After inserting 40 after 30:")
+    print(linked_list)
+
+    try:
+        linked_list.insert_after(100, 200)
+    except ValueError as error:
+        print("Error:", error) 
