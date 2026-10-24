@@ -73,6 +73,32 @@ class SinglyLinkedList:
 
         raise ValueError(f"{existing_value} not found in the list")
 
+    def remove(self, value):
+        current = self._head
+        previous = None
+
+        while current is not None:
+            if current.data == value:
+                if previous is None:
+                    self._head = current.next
+                else:
+                    previous.next = current.next
+
+                if current == self._tail:
+                    self._tail = previous
+
+                self._count -= 1
+
+                if self._count == 0:
+                    self._head = None
+                    self._tail = None
+
+                return
+
+            previous = current
+            current = current.next
+
+        raise ValueError(f"{value} not found in the list") 
 
     def __iter__(self):
         current = self._head
@@ -97,16 +123,15 @@ class SinglyLinkedList:
 
 if __name__ == "__main__":
     linked_list = SinglyLinkedList()
+
     linked_list.append(10)
     linked_list.append(20)
     linked_list.append(30)
 
-
     print(linked_list)
-
     print("Length:", len(linked_list))
     print("Contains 20:", linked_list.contains(20))
-    print("Contains 100:", linked_list.contains(100)) 
+    print("Contains 100:", linked_list.contains(100))
 
     linked_list.insert_after(20, 25)
     print("After inserting 25 after 20:")
@@ -119,4 +144,37 @@ if __name__ == "__main__":
     try:
         linked_list.insert_after(100, 200)
     except ValueError as error:
-        print("Error:", error) 
+        print("Error:", error)
+
+    print("\nTesting remove:")
+
+    remove_test = SinglyLinkedList()
+
+    remove_test.append(10)
+    remove_test.append(20)
+    remove_test.append(30)
+    remove_test.append(40)
+
+    print("Starting list:")
+    print(remove_test)
+
+    remove_test.remove(10)
+    print("After removing head 10:")
+    print(remove_test)
+
+    remove_test.remove(30)
+    print("After removing middle 30:")
+    print(remove_test)
+
+    remove_test.remove(40)
+    print("After removing tail 40:")
+    print(remove_test)
+
+    remove_test.remove(20)
+    print("After removing only remaining node 20:")
+    print(remove_test)
+
+    try:
+        remove_test.remove(100)
+    except ValueError as error:
+        print("Error:", error)
