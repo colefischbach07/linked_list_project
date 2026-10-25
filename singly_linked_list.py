@@ -73,6 +73,8 @@ class SinglyLinkedList:
 
         raise ValueError(f"{existing_value} not found in the list")
 
+
+
     def remove(self, value):
         current = self._head
         previous = None
@@ -99,6 +101,24 @@ class SinglyLinkedList:
             current = current.next
 
         raise ValueError(f"{value} not found in the list") 
+
+
+    def build_list_forward(self, values):
+        self._head = None
+        self._tail = None
+        self._count = 0
+
+        for value in values:
+            self.append(value)
+
+    def build_list_backward(self, values):
+        self._head = None
+        self._tail = None
+        self._count = 0
+
+        for value in values:
+            self.prepend(value)
+
 
     def __iter__(self):
         current = self._head
@@ -178,3 +198,24 @@ if __name__ == "__main__":
         remove_test.remove(100)
     except ValueError as error:
         print("Error:", error)
+
+
+            
+    print("\nTesting forward and backward builders:")
+
+    numbers = [10, 20, 30, 40, 50]
+
+    forward_list = SinglyLinkedList()
+    forward_list.build_list_forward(numbers)
+
+    print("Forward:")
+    print(forward_list)
+
+    backward_list = SinglyLinkedList()
+    backward_list.build_list_backward(numbers)
+
+    print("Backward:")
+    print(backward_list)
+
+    print("Original Python list:")
+    print(numbers)
