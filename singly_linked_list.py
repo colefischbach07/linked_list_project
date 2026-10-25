@@ -119,7 +119,36 @@ class SinglyLinkedList:
         for value in values:
             self.prepend(value)
 
+    def remove_all(self, value):
+        removed_count = 0
+        current = self._head
+        previous = None
 
+        while current is not None:
+            if current.data == value:
+                removed_count += 1
+                self._count -= 1
+
+                if previous is None:
+                    self._head = current.next
+                else:
+                    previous.next = current.next
+
+                if current == self._tail:
+                    self._tail = previous
+
+                current = current.next
+            else:
+                previous = current
+                current = current.next
+
+        if self._count == 0:
+            self._head = None
+            self._tail = None
+
+        return removed_count
+
+    
     def __iter__(self):
         current = self._head
 
@@ -219,3 +248,20 @@ if __name__ == "__main__":
 
     print("Original Python list:")
     print(numbers)
+
+    print("\nTesting remove_all:")
+
+    remove_all_test = SinglyLinkedList()
+    remove_all_test.build_list_forward([10, 20, 20, 30, 20, 20])
+
+    print("Starting list:")
+    print(remove_all_test)
+
+    removed = remove_all_test.remove_all(20)
+
+    print("After removing all 20s:")
+    print(remove_all_test)
+    print("Number removed:", removed)
+
+    removed = remove_all_test.remove_all(100)
+    print("Number removed for missing value 100:", removed)
